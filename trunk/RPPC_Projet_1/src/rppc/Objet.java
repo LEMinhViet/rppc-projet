@@ -6,8 +6,7 @@
 package rppc;
 
 /**
- *
- * @author 3303340
+ * Un objet a son poids et sa valeur.
  */
 public class Objet {
     private int poids;
