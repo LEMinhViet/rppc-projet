@@ -5,102 +5,128 @@
 
 package rppc;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 /**
  *
  */
 public class Main {
-    public static final int NUM_OBJ = 30;
-    public static final int MAX_POIDS = 200;
+    public static int nombreDeObjet;
+    public static int poidsMax;
     
     // Contient tous les objets 
-    private static ArrayList<Objet> liste_init = new ArrayList<Objet>(NUM_OBJ);
+    private static ArrayList<Objet> liste_init = new ArrayList<Objet>();
     private static Objet obj;
-    
-    // Stocker les selections des objets : true - selectionné 
-    private static boolean[] selectionneObjet;
-    
-    // Le node racine dans le cas on stocke tous les nodes et géneérer l'arbre
-    private static Node racine;
-    
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        selectionneObjet = new boolean[NUM_OBJ];
+    	Sac sac;
+    	
+    	// GENERER les objets aléatoires 
+        genererObjets(50, 200);        
         
-        // Générer les objets aléatoires et les trier
-        genererObjets();
+        // Algorithme glouton - 2.3
+        System.out.println("2.3 - Algorithme glouton ");
+        sac = new Sac (poidsMax);
+        sac.getObjs_Glouton(liste_init);
+        System.out.println("-------------------------------------------------------------");
         
-        // Algorithme glouton
-        Sac sac = new Sac (MAX_POIDS);
-        sac.getObjs(liste_init);
+        // Methode arboresente - 2.4 
+        System.out.println("2.4 - Methode arboresente ");
+        sac = new Sac(poidsMax);
+        sac.getObjs_Arboresente(liste_init);
+        System.out.println("-------------------------------------------------------------");
         
-        // Méthode arboresente - dans le cas on stocke les noeuds :
-        // Dans ce cas, on générer un arbre pour stocker tous les possibilités de sélection des objets    
-        // Mais le nombre d'objet est limite à cause de la limite de la mémoire
-//        genererArbre();
-//        sac = new Sac (MAX_POIDS);
-//        sac.getObjs_Arboresente(racine, liste_init);
+        // OU 
         
-        // Méthode arboresente - dans le cas on ne stocke pas les noeuds :
-        // Basée sur la méthode ci-dessus mais on ne génère pas l'arbre
-        sac = new Sac(MAX_POIDS);
-        sac.getObjs_Arboresente_sansStockerNodes(liste_init);
+    	// UTILISER LE FICHIER D'ENTRÉE - 2.5
+//        System.out.println("2.5 - Branch-and-Greed ");
+//    	try {
+//			lireDonnee();
+//      	liste_init = trierObjets(liste_init);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+        
+        // Méthode arboresente - Branch-and-greed
+//        sac = new Sac(poidsMax);
+//        sac.getObjs_Branch_and_greed(liste_init);
+//        System.out.println("-------------------------------------------------------------");
     }
     
     /**
      * Générer les noeuds aléatoires et les trier
      */
-    public static void genererObjets() {
-        // Generer
-        for (int i = 0; i < NUM_OBJ; i++) {
+    public static void genererObjets(int nombre, int poids) {
+    	// Generer
+    	nombreDeObjet = nombre;
+    	poidsMax = poids;
+    	
+        for (int i = 0; i < nombreDeObjet; i++) {
             liste_init.add(new Objet((int)(Math.random() * 1000 % 50 + 1), (int)(Math.random() * 1000 % 50 + 1)));
         }
-                
+        
+        // Afficher les objets générés
+//        for (int i = 0; i < nombreDeObjet; i++) {
+//            System.out.println("Obj " + i + " poids " + liste_init.get(i).getPoids() + " valeur " + liste_init.get(i).getValeur());
+//        }
+    }
+    
+    /**
+     * Trier une liste et retourner cette liste triée
+     * @param liste 
+     * @return : cette liste triée
+     */
+    public static ArrayList<Objet> trierObjets(ArrayList<Objet> liste) {
         // Classifier
-        for (int i = 0; i < liste_init.size(); i++) {
-            for (int j = i; j < liste_init.size(); j++) {
-                if (liste_init.get(j).getValeurDivPoids() > liste_init.get(i).getValeurDivPoids()) {
+        for (int i = 0; i < liste.size(); i++) {
+            for (int j = i; j < liste.size(); j++) {
+                if (liste.get(j).getValeurDivPoids() > liste.get(i).getValeurDivPoids()) {
                 	// Échanger 2 noeuds
-                    obj = liste_init.get(j);
+                    obj = liste.get(j);
                     
-                    liste_init.set(j, liste_init.get(i));
-                    liste_init.set(i, obj);
+                    liste.set(j, liste.get(i));
+                    liste.set(i, obj);
                 }
             }
         }
+        
+        return liste;
     }
     
     /**
-     * Générer l'arbre qui stocke tous les noeuds 
+     * Lire le fichier d'entrée
+     * @throws IOException 
      */
-    public static void genererArbre() {
-    	racine = new Node(selectionneObjet);   
-    }
-    
-    /**
-     * Obtenir le poids d'un objet
-     * @param objPos : la position de l'objet
-     * @return : le poids
-     */
-    public static int getPoids(int objPos) {
-    	return liste_init.get(objPos).getPoids();
-    }
-    
-    /**
-     * Obtenir la valeur d'un objet
-     * @param objPos : la position de l'objet
-     * @return : la valeur
-     */
-    public static int getValeur(int objPos) {
-    	return liste_init.get(objPos).getValeur();
+    public static void lireDonnee() throws IOException {
+    	InputStream ips = new FileInputStream("data//test.in");
+		InputStreamReader ipsr = new InputStreamReader(ips);
+		BufferedReader br = new BufferedReader(ipsr);
+
+		String ligne = br.readLine();
+		// La premiere ligne
+		if (ligne != null) {
+			nombreDeObjet = Integer.parseInt(ligne);
+		}
+
+		for (int i = 0; i < nombreDeObjet; i++) {
+			ligne = br.readLine();
+			liste_init.add(new Objet(Integer.parseInt(ligne.split(" ")[1]), 
+									 Integer.parseInt(ligne.split(" ")[2])));
+		}
+		
+		// La derniere ligne
+		poidsMax = Integer.parseInt(br.readLine()); 
+		
+		
+		br.close();
     }
 }
