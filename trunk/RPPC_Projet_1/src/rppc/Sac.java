@@ -29,20 +29,20 @@ public class Sac {
      * @param allObjs : Liste de tous les objets on peut mettre dans le sac
      */
     public void getObjs_Glouton(ArrayList<Objet> allObjs) {
-    	ArrayList<Objet> objs = copierArray(allObjs);
+    	ArrayList<Objet> objs = new ArrayList<Objet>();
+    	objs.addAll(allObjs);    	
     	objs = Main.trierObjets(objs);
     	
         int i = 0;
         int poids = 0;
-        float[] selectionneObjets = new float[objs.size()];
-        
+       
         if (objs.size() == 0) {
         	return;
         }
         
         // Selectionner les objets de 0 à r - 1 avec x = 1
         while (poids + objs.get(i).getPoids() <= Main.poidsMax) {
-        	selectionneObjets[i] = 1;
+        	liste.add(new Objet(objs.get(i).getPos(), objs.get(i).getPoids(), objs.get(i).getValeur(), 1));
             poids += objs.get(i).getPoids();
             i++;      
             
@@ -51,18 +51,14 @@ public class Sac {
         	}        	
         }
         
-     // Selectionner l'objet r avec 0 < x < 1
-        if (i < objs.size()) {
-        	selectionneObjets[i] = (float)(Main.poidsMax - poids) / objs.get(i).getPoids();
+        // Selectionner l'objet r avec 0 < x < 1
+        if (i < objs.size()) {		
+        	liste.add(new Objet(objs.get(i).getPos(),															// position de l'objet
+        						objs.get(i).getPoids(), 									// poids de l'objet
+        						objs.get(i).getValeur(),  									// valeur de l'objet
+        						(float)(Main.poidsMax - poids) / objs.get(i).getPoids())); 	// partie de l'objet
         }        
         
-        // Ajouter les objets sélectionnés au sac
-    	for (i = 0; i < selectionneObjets.length; i++) {
-    		if (selectionneObjets[i] != 0) {
-    			liste.add(new Objet(objs.get(i).getPoids(), objs.get(i).getValeur(), selectionneObjets[i]));
-    		}
-    	}
-    	
         // Afficher le résultat
         showSac();
     }     
@@ -75,30 +71,32 @@ public class Sac {
      */
     public void getObjs_Arboresente(ArrayList<Objet> allObjs) {
     	// objs est pour stocker le sous-arbre qu'on va examiner dans chaque étape
-    	ArrayList<Objet> objs = copierArray(allObjs);
+    	ArrayList<Objet> objs = new ArrayList<Objet>();
+    	objs.addAll(allObjs);
     	// objsTrie est comme objs mais il est trié pour la fonction "evaluer"
     	ArrayList<Objet> objsTrie;
     	
     	int i = 0;
     	int poids = 0;
     	int valeur = 0;
-    	    	
-    	// Stocker les résultat : selectionneObjets[i] = true ssi on selectionne l'objet i
-    	float[] selectionneObjets = new float[allObjs.size()];
     	
+    	float partie = 0;
+    	    	
     	while (i < allObjs.size()) {    
     		// Si le poids est supérieur que la capacité du sac, on ne selectionne pas l'objet courant
     		if (poids + allObjs.get(i).getPoids() > Main.poidsMax) {
     			objs.remove(0);
-    			objsTrie = copierArray(objs);
+    			objsTrie = new ArrayList<Objet>();
+    			objsTrie.addAll(objs);
     	    	
     	    	if (valeur + allObjs.get(i).getValeur() * (float)(Main.poidsMax - poids) / allObjs.get(i).getPoids() 
 					>= 
 					evaluer(poids, valeur, objsTrie)) {
 				
-					selectionneObjets[i] = (float)(Main.poidsMax - poids) / allObjs.get(i).getPoids();
+    	    		partie = (float)(Main.poidsMax - poids) / allObjs.get(i).getPoids();
+    	    		liste.add(new Objet(allObjs.get(i).getPos(), allObjs.get(i).getPoids(), allObjs.get(i).getValeur(), partie));
 					poids = Main.poidsMax;
-					valeur += allObjs.get(i).getValeur() * selectionneObjets[i];	    			
+					valeur += allObjs.get(i).getValeur() * partie;	    			
 				}    	    	
     		} else {
     			objs.remove(0);
@@ -118,7 +116,7 @@ public class Sac {
     				
     				poids += allObjs.get(i).getPoids();
     				valeur += allObjs.get(i).getValeur();
-	    			selectionneObjets[i] = 1;
+    				liste.add(new Objet(allObjs.get(i).getPos(), allObjs.get(i).getPoids(), allObjs.get(i).getValeur(), 1));
     			}
     		}
     		
@@ -128,13 +126,6 @@ public class Sac {
     		}     
     		
     		i++;
-    	}
-    	
-    	// Ajouter les objets sélectionnés au sac
-    	for (i = 0; i < selectionneObjets.length; i++) {
-    		if (selectionneObjets[i] != 0) {
-    			liste.add(new Objet(allObjs.get(i).getPoids(), allObjs.get(i).getValeur(), selectionneObjets[i]));
-    		}
     	}
     	
     	// Afficher le résultat
@@ -207,7 +198,7 @@ public class Sac {
     	// Ajouter les objets sélectionnés au sac
     	for (i = 0; i < selectionneObjets.length; i++) {
     		if (selectionneObjets[i] != 0) {
-    			liste.add(new Objet(allObjs.get(i).getPoids(), allObjs.get(i).getValeur(), selectionneObjets[i]));
+    			liste.add(new Objet(allObjs.get(i).getPos(), allObjs.get(i).getPoids(), allObjs.get(i).getValeur(), selectionneObjets[i]));
     		}
     	}
     	
@@ -262,7 +253,7 @@ public class Sac {
         int cur_valeur = 0;
         
         for (int i = 0; i < liste.size(); i++) {
-            System.out.println("objet no " + (i + 1) + 
+            System.out.println("objet no " + (liste.get(i).getPos() + 1) + 
             				   " avec le Poids :  " + liste.get(i).getPoids() + 
             				   " et la valeur : " + liste.get(i).getValeur() + 
             				   " x : " + liste.get(i).getPartie());
@@ -271,17 +262,5 @@ public class Sac {
         }
         
         System.out.println("Total " + liste.size() + " Poids : " + cur_poids + " Valeur : " + cur_valeur);
-    }
-    
-    /**
-     * Copier un ArrayList<Objet> à autre
-     */
-    public ArrayList<Objet> copierArray(ArrayList<Objet> listeCopie) {
-    	ArrayList<Objet> newListe = new ArrayList<Objet>();
-    	for (int i = 0; i < listeCopie.size(); i++) {
-    		newListe.add(listeCopie.get(i));
-    	}
-    	
-    	return newListe;
     }
 }

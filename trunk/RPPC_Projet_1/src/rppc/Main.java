@@ -50,13 +50,15 @@ public class Main {
 //        System.out.println("2.5 - Branch-and-Greed ");
 //    	try {
 //			lireDonnee();
-//      	liste_init = trierObjets(liste_init);
+//        	System.out.println("Trier les objets ...");        
+//        	liste_init = trierObjets(liste_init);
+//        	System.out.println("Trier : done ...");
 //		} catch (IOException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-        
-        // Méthode arboresente - Branch-and-greed
+//        
+//        // Méthode arboresente - Branch-and-greed
 //        sac = new Sac(poidsMax);
 //        sac.getObjs_Branch_and_greed(liste_init);
 //        System.out.println("-------------------------------------------------------------");
@@ -71,13 +73,8 @@ public class Main {
     	poidsMax = poids;
     	
         for (int i = 0; i < nombreDeObjet; i++) {
-            liste_init.add(new Objet((int)(Math.random() * 1000 % 50 + 1), (int)(Math.random() * 1000 % 50 + 1)));
+            liste_init.add(new Objet(i, (int)(Math.random() * 1000 % 50 + 1), (int)(Math.random() * 1000 % 50 + 1)));
         }
-        
-        // Afficher les objets générés
-//        for (int i = 0; i < nombreDeObjet; i++) {
-//            System.out.println("Obj " + i + " poids " + liste_init.get(i).getPoids() + " valeur " + liste_init.get(i).getValeur());
-//        }
     }
     
     /**
@@ -87,8 +84,11 @@ public class Main {
      */
     public static ArrayList<Objet> trierObjets(ArrayList<Objet> liste) {
         // Classifier
-        for (int i = 0; i < liste.size(); i++) {
-            for (int j = i; j < liste.size(); j++) {
+    	for (int i = 0; i < liste.size(); i++) {
+    		// Tracer le processus
+    		if (i % 1000 == 0 && i != 0) 	System.out.println("i = " + i);
+    		
+        	for (int j = i + 1; j < liste.size(); j++) {
                 if (liste.get(j).getValeurDivPoids() > liste.get(i).getValeurDivPoids()) {
                 	// Échanger 2 noeuds
                     obj = liste.get(j);
@@ -98,7 +98,7 @@ public class Main {
                 }
             }
         }
-        
+    	
         return liste;
     }
     
@@ -119,8 +119,9 @@ public class Main {
 
 		for (int i = 0; i < nombreDeObjet; i++) {
 			ligne = br.readLine();
-			liste_init.add(new Objet(Integer.parseInt(ligne.split(" ")[1]), 
-									 Integer.parseInt(ligne.split(" ")[2])));
+			liste_init.add(new Objet(i,
+									Integer.parseInt(ligne.split(" ")[1]), 
+									Integer.parseInt(ligne.split(" ")[2])));
 		}
 		
 		// La derniere ligne
