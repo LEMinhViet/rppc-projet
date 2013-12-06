@@ -47,21 +47,21 @@ public class Main {
         // OU 
         
     	// UTILISER LE FICHIER D'ENTRÉE - 2.5
-//        System.out.println("2.5 - Branch-and-Greed ");
-//    	try {
-//			lireDonnee();
-//        	System.out.println("Trier les objets ...");        
-//        	liste_init = trierObjets(liste_init);
-//        	System.out.println("Trier : done ...");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//        
-//        // Méthode arboresente - Branch-and-greed
-//        sac = new Sac(poidsMax);
-//        sac.getObjs_Branch_and_greed(liste_init);
-//        System.out.println("-------------------------------------------------------------");
+        System.out.println("2.5 - Branch-and-Greed ");
+    	try {
+			lireDonnee();
+        	System.out.println("Trier les objets ...");        
+        	liste_init = trierObjets(liste_init);
+        	System.out.println("Trier : done ...");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        // Méthode arboresente - Branch-and-greed
+        sac = new Sac(poidsMax);
+        sac.getObjs_Branch_and_greed(liste_init);
+        System.out.println("-------------------------------------------------------------");
     }
     
     /**
@@ -86,7 +86,7 @@ public class Main {
         // Classifier
     	for (int i = 0; i < liste.size(); i++) {
     		// Tracer le processus
-    		if (i % 1000 == 0 && i != 0) 	System.out.println("i = " + i);
+    		if (i % 1000 == 0 && i != 0) 	System.out.println("Trier : " + (int)((float)i / nombreDeObjet * 100) + "%" );
     		
         	for (int j = i + 1; j < liste.size(); j++) {
                 if (liste.get(j).getValeurDivPoids() > liste.get(i).getValeurDivPoids()) {
