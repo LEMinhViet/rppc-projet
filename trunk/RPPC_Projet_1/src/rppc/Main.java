@@ -51,7 +51,8 @@ public class Main {
     	try {
 			lireDonnee();
         	System.out.println("Trier les objets ...");        
-        	liste_init = trierObjets(liste_init);
+//        	liste_init = trierObjets(liste_init);
+        	liste_init = trierObjets_Merge(liste_init);
         	System.out.println("Trier : done ...");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -78,7 +79,7 @@ public class Main {
     }
     
     /**
-     * Trier une liste et retourner cette liste triée
+     * Trier une liste et retourner cette liste triée (utiliser l'algorithme Bubble Sort)
      * @param liste 
      * @return : cette liste triée
      */
@@ -100,6 +101,49 @@ public class Main {
         }
     	
         return liste;
+    }
+    
+    /**
+     * Trier une liste et retourner cette liste triée (Utiliser l'algorithme Merge Sort)
+     * @param liste 
+     * @return : cette liste triée
+     */
+    public static ArrayList<Objet> trierObjets_Merge(ArrayList<Objet> liste) {
+    	if (liste.size() == 1) {
+    		return liste;
+    	}
+    	
+    	ArrayList<Objet> resultat = new ArrayList<Objet>();
+        ArrayList<Objet> gauche = new ArrayList<Objet>();
+        ArrayList<Objet> droit = new ArrayList<Objet>();
+        
+        for (int i = 0; i < liste.size(); i++) {
+        	if (i < liste.size() / 2) 	gauche.add(liste.get(i));
+        	else droit.add(liste.get(i));
+        }
+        
+        gauche = trierObjets_Merge(gauche);
+        droit = trierObjets_Merge(droit);
+        
+        for (int i = 0; i < liste.size(); i++) {
+        	if (gauche.size() == 0) {
+        		resultat.add(droit.get(0));
+        		droit.remove(0);
+        	} else if (droit.size() == 0) {
+        		resultat.add(gauche.get(0));
+        		gauche.remove(0);
+        	} else {
+	        	if (gauche.get(0).getValeurDivPoids() > droit.get(0).getValeurDivPoids()) {
+	        		resultat.add(gauche.get(0));
+	        		gauche.remove(0);
+	        	} else {
+	        		resultat.add(droit.get(0));
+	        		droit.remove(0);
+	        	}
+        	}
+        }
+        
+        return resultat;
     }
     
     /**
