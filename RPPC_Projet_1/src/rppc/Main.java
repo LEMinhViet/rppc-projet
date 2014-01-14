@@ -19,9 +19,10 @@ public class Main {
     public static int nombreDeObjet;
     public static int poidsMax;
     
+    private static long debut;
+    
     // Contient tous les objets 
     private static ArrayList<Objet> liste_init = new ArrayList<Objet>();
-    private static Objet obj;
 
     /**
      * @param args the command line arguments
@@ -29,84 +30,40 @@ public class Main {
     public static void main(String[] args) {
     	Sac sac;
     	
-    	// GENERER les objets aléatoires 
+    	// GENERER les objets aleatoires 
         genererObjets(50, 200);        
         
         // Algorithme glouton - 2.3
+        debut = System.currentTimeMillis();
         System.out.println("2.3 - Algorithme glouton ");
         sac = new Sac (poidsMax);
         sac.getObjs_Glouton(liste_init);
+        System.out.println("Temps d'execution " + (System.currentTimeMillis() - debut));
         System.out.println("-------------------------------------------------------------");
         
         // Methode arboresente - 2.4 
-        System.out.println("2.4 - Methode arboresente ");
-        sac = new Sac(poidsMax);
-        sac.getObjs_Arboresente(liste_init);
+        debut = System.currentTimeMillis();
+        System.out.println("2.4 - Methode Branch and Bound ");
+        sac.getObjs_BranchAndBound(liste_init);
+        System.out.println("Temps d'execution " + (System.currentTimeMillis() - debut));
         System.out.println("-------------------------------------------------------------");
         
-        // OU 
-        
-    	// UTILISER LE FICHIER D'ENTRÉE - 2.5
-        System.out.println("2.5 - Branch-and-Greed ");
-    	try {
-			lireDonnee();
-        	System.out.println("Trier les objets ...");        
-//        	liste_init = trierObjets(liste_init);
-        	liste_init = trierObjets_Merge(liste_init);
-        	System.out.println("Trier : done ...");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
-        // Méthode arboresente - Branch-and-greed
+        // UTILISER LE FICHIER D'ENTREE - 2.5
+        System.out.println("2.5 - Branch and Greed ");
+    	lireDonnee();
+		// Methode arboresente - Branch-and-greed
+    	debut = System.currentTimeMillis();
         sac = new Sac(poidsMax);
-        sac.getObjs_Branch_and_greed(liste_init);
+        sac.getObjs_BranchAndGreed(liste_init);
+        System.out.println("Temps d'execution " + (System.currentTimeMillis() - debut));
         System.out.println("-------------------------------------------------------------");
     }
     
     /**
-     * Générer les noeuds aléatoires et les trier
-     */
-    public static void genererObjets(int nombre, int poids) {
-    	// Generer
-    	nombreDeObjet = nombre;
-    	poidsMax = poids;
-    	
-        for (int i = 0; i < nombreDeObjet; i++) {
-            liste_init.add(new Objet(i, (int)(Math.random() * 1000 % 50 + 1), (int)(Math.random() * 1000 % 50 + 1)));
-        }
-    }
-    
-    /**
-     * Trier une liste et retourner cette liste triée (utiliser l'algorithme Bubble Sort)
+     * Trier une liste et retourner cette liste triee (Utiliser l'algorithme Merge Sort)
+     * methode dichotomique
      * @param liste 
-     * @return : cette liste triée
-     */
-    public static ArrayList<Objet> trierObjets(ArrayList<Objet> liste) {
-        // Classifier
-    	for (int i = 0; i < liste.size(); i++) {
-    		// Tracer le processus
-    		if (i % 1000 == 0 && i != 0) 	System.out.println("Trier : " + (int)((float)i / nombreDeObjet * 100) + "%" );
-    		
-        	for (int j = i + 1; j < liste.size(); j++) {
-                if (liste.get(j).getValeurDivPoids() > liste.get(i).getValeurDivPoids()) {
-                	// Échanger 2 noeuds
-                    obj = liste.get(j);
-                    
-                    liste.set(j, liste.get(i));
-                    liste.set(i, obj);
-                }
-            }
-        }
-    	
-        return liste;
-    }
-    
-    /**
-     * Trier une liste et retourner cette liste triée (Utiliser l'algorithme Merge Sort)
-     * @param liste 
-     * @return : cette liste triée
+     * @return : cette liste triee
      */
     public static ArrayList<Objet> trierObjets_Merge(ArrayList<Objet> liste) {
     	if (liste.size() == 1) {
@@ -147,31 +104,49 @@ public class Main {
     }
     
     /**
-     * Lire le fichier d'entrée
+     * Generer les noeuds aleatoires et les trier
+     */
+    public static void genererObjets(int nombre, int poids) {
+    	// Generer
+    	nombreDeObjet = nombre;
+    	poidsMax = poids;
+    	
+        for (int i = 0; i < nombreDeObjet; i++) {
+            liste_init.add(new Objet(i, (int)(Math.random() * 1000 % 50 + 1), (int)(Math.random() * 1000 % 50 + 1)));
+        }
+    }
+        
+    /**
+     * Lire le fichier d'entree
      * @throws IOException 
      */
-    public static void lireDonnee() throws IOException {
-    	InputStream ips = new FileInputStream("data//test.in");
-		InputStreamReader ipsr = new InputStreamReader(ips);
-		BufferedReader br = new BufferedReader(ipsr);
+    public static void lireDonnee() {
+    	try {
+			InputStream ips = new FileInputStream("data//test.in");
+			InputStreamReader ipsr = new InputStreamReader(ips);
+			BufferedReader br = new BufferedReader(ipsr);
 
-		String ligne = br.readLine();
-		// La premiere ligne
-		if (ligne != null) {
-			nombreDeObjet = Integer.parseInt(ligne);
-		}
+			String ligne = br.readLine();
+			// La premiere ligne
+			if (ligne != null) {
+				nombreDeObjet = Integer.parseInt(ligne);
+			}
 
-		for (int i = 0; i < nombreDeObjet; i++) {
-			ligne = br.readLine();
-			liste_init.add(new Objet(i,
-									Integer.parseInt(ligne.split(" ")[1]), 
-									Integer.parseInt(ligne.split(" ")[2])));
-		}
-		
-		// La derniere ligne
-		poidsMax = Integer.parseInt(br.readLine()); 
-		
-		
-		br.close();
+			for (int i = 0; i < nombreDeObjet; i++) {
+				ligne = br.readLine();
+				liste_init.add(new Objet(i,
+										Integer.parseInt(ligne.split(" ")[1]), 
+										Integer.parseInt(ligne.split(" ")[2])));
+			}
+			
+			// La derniere ligne
+			poidsMax = Integer.parseInt(br.readLine()); 
+			
+			
+			br.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
     }
 }
