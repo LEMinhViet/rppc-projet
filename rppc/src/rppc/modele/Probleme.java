@@ -28,13 +28,13 @@ public class Probleme {
 	}
 	
 	public static Probleme problemeEnonce() {
-		List<ObjetRectangulaire> objets = new ArrayList<>(5);
-		objets.add(new ObjetRectangulaire(1, 2));
-		objets.add(new ObjetRectangulaire(3, 1));
-		objets.add(new ObjetRectangulaire(2, 1));
-		objets.add(new ObjetRectangulaire(2, 1));
-		objets.add(new ObjetRectangulaire(1, 1));
-		objets.add(new ObjetRectangulaire(2, 2));
+		List<ObjetRectangulaire> objets = new ArrayList<>(6);
+		objets.add(new ObjetRectangulaire(1, 2, 0));
+		objets.add(new ObjetRectangulaire(3, 1, 1));
+		objets.add(new ObjetRectangulaire(2, 1, 2));
+		objets.add(new ObjetRectangulaire(2, 1, 3));
+		objets.add(new ObjetRectangulaire(1, 1, 4));
+		objets.add(new ObjetRectangulaire(2, 2, 5));
 
 		Probleme p = new Probleme(5, objets);
 

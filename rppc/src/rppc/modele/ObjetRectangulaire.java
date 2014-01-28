@@ -1,13 +1,19 @@
 package rppc.modele;
 
-public class ObjetRectangulaire {
+public class ObjetRectangulaire implements Comparable<ObjetRectangulaire> {
 
+	private final int indice;
 	private final int largeur;
 	private final int hauteur;
 
-	public ObjetRectangulaire(int largeur, int hauteur) {
+	public ObjetRectangulaire(int largeur, int hauteur,int indice) {
 		this.largeur = largeur;
 		this.hauteur = hauteur;
+		this.indice=indice;
+	}
+
+	public int getIndice() {
+		return indice;
 	}
 
 	public int getLargeur() {
@@ -16,6 +22,11 @@ public class ObjetRectangulaire {
 
 	public int getHauteur() {
 		return hauteur;
+	}
+
+	@Override
+	public int compareTo(ObjetRectangulaire o) {
+		return Integer.compare(largeur, o.largeur);
 	}
 
 }
