@@ -1,5 +1,8 @@
 package rppc.modele;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Solution {
@@ -9,15 +12,9 @@ public class Solution {
 	private int hauteur;
 	private Probleme probleme;
 
-	public Solution(int taille, Probleme probleme) {
-		this.x = new int[taille];
-		this.y = new int[taille];
-		this.probleme = probleme;
-	}
-
-	public Solution(int[] x, int[] y, Probleme probleme) {
-		this.x = x;
-		this.y = y;
+	public Solution(Probleme probleme) {
+		this.x = new int[probleme.getTaille()];
+		this.y = new int[probleme.getTaille()];
 		this.probleme = probleme;
 	}
 
@@ -29,23 +26,43 @@ public class Solution {
 		this.y[i] = valeur;
 	}
 
+	public int getX(int indice) {
+		return x[indice];
+	}
+
+	public int getY(int indice) {
+		return y[indice];
+	}
+
+	public Probleme getProbleme() {
+		return probleme;
+	}
+
 	public void setHauteur(int hauteur) {
 		this.hauteur = hauteur;
 	}
 
 	public void affichageSolution() {
-		System.out.println(hauteur);
+		System.out.println("H: " + hauteur + " "+ valideSolution());
 		for (int i = 0; i < x.length; i++) {
-			System.out.println("(" + x[i] + "," + y[i] + ")");
+			System.out.println(probleme.getObjets().get(i).getIndice() + " (" + +x[i] + "," + y[i] + ")");
 		}
 	}
 
 	public void calculeHauteur() {
 		hauteur = y[0] + probleme.getObjets().get(y[0]).getHauteur();
-		for (int i = 0; i < y.length; i++) {
-			if (y[i] + probleme.getObjets().get(y[i]).getHauteur() > hauteur)
-				hauteur = y[i] + probleme.getObjets().get(y[i]).getHauteur();
+		for (int i = 1; i < y.length; i++) {
+			if (y[i] + probleme.getObjets().get(i).getHauteur() > hauteur)
+				hauteur = y[i] + probleme.getObjets().get(i).getHauteur();
 		}
+	}
+
+	public boolean valideSolution() {
+		for (int i = 0; i < x.length; i++) {
+			if (x[i] + probleme.getObjets().get(i).getLargeur() > probleme.getLargeur())
+				return false;
+		}
+		return true;
 	}
 
 	public int maxX(List<Integer> J) {
@@ -64,6 +81,21 @@ public class Solution {
 				max = y[k] + probleme.getObjets().get(k).getHauteur();
 		}
 		return max;
+	}
+
+	public void solutionRealisable() {
+		List<ObjetRectangulaire> r = new ArrayList<>(probleme.getTaille());
+		r.addAll(probleme.getObjets());
+		Collections.sort(r);
+
+		setX(r.get(0).getIndice(), 0);
+		setY(r.get(0).getIndice(), 0);
+
+		for (int i = 1; i < x.length; i++) {
+			setX(r.get(i).getIndice(), 0);
+			setY(r.get(i).getIndice(), r.get(i - 1).getHauteur() + getY(r.get(i - 1).getIndice()));
+		}
+		calculeHauteur();
 	}
 
 }
