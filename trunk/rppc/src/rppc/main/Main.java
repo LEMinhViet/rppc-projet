@@ -15,7 +15,7 @@ public class Main {
 		Codage c2 = new Codage(d.decoder());
 		c2.afficher();
 		Solution s = new Solution(p);
-		s.solutionRealisable();
+		s.solutionRealisable(false);
 		s.affichageSolution();
 		Codage c3 = new Codage(s);
 		c3.afficher();

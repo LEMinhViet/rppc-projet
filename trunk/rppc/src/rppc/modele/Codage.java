@@ -9,6 +9,12 @@ public class Codage {
 	private int permutationPlus[];
 	private int permutationMoins[];
 
+	
+	public Codage(Codage codage) {
+		this.permutationPlus = codage.permutationPlus.clone();
+		this.permutationMoins = codage.permutationMoins.clone();
+	}
+	
 	public Codage(Solution s) {
 		this.permutationPlus = new int[s.getProbleme().getTaille()];
 		this.permutationMoins = new int[s.getProbleme().getTaille()];
@@ -129,5 +135,16 @@ public class Codage {
 
 		}
 		System.out.println("");
+	}
+
+	public void shiftNeighborhood(int indice1, int indice2) {
+		int tmp1 = 0, tmp2 = 0;
+		tmp1 = permutationPlus[indice1];
+		tmp2 = permutationMoins[indice1];
+		permutationPlus[indice1] = permutationPlus[indice2];
+		permutationMoins[indice1] = permutationMoins[indice2];
+		permutationPlus[indice2] = tmp1;
+		permutationMoins[indice2] = tmp2;
+
 	}
 }
