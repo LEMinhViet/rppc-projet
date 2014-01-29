@@ -54,7 +54,7 @@ public class Solution {
 	}
 
 	public void calculeHauteur() {
-		hauteur = y[0] + probleme.getObjets().get(y[0]).getHauteur();
+		hauteur = y[0] + probleme.getObjets().get(0).getHauteur();
 		for (int i = 1; i < y.length; i++) {
 			if (y[i] + probleme.getObjets().get(i).getHauteur() > hauteur)
 				hauteur = y[i] + probleme.getObjets().get(i).getHauteur();

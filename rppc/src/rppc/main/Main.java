@@ -6,6 +6,7 @@ import rppc.modele.Decodage;
 import rppc.modele.MonModele;
 import rppc.modele.Probleme;
 import rppc.modele.RechercheLocale;
+import rppc.modele.RechercheLocaleIteree;
 import rppc.modele.Solution;
 import rppc.vue.Fenetre;
 
@@ -13,8 +14,9 @@ public class Main {
 
 	public static void main(String[] args) {
 		Probleme p = Probleme.problemeEnonce();
-		Algorithme a = new RechercheLocale(p, false);
-		a.getSolution();
+		Algorithme a = new RechercheLocaleIteree(p);
+		a.run();
+		a.getSolution().affichageSolution();
 		
 //		Codage c = Codage.permutationEnonce();
 //		Decodage d = new Decodage(c, p);
@@ -29,7 +31,7 @@ public class Main {
 //		Decodage d2 = new Decodage(c3, p);
 //		d2.decoder().affichageSolution();
 		
-		IG();
+		//IG();
 	}
 	
 	public static void IG(){
