@@ -7,15 +7,18 @@ import rppc.modele.MonModele;
 import rppc.modele.Probleme;
 import rppc.modele.RechercheLocale;
 import rppc.modele.RechercheLocaleIteree;
+import rppc.modele.RechercheLocaleItereePlus;
 import rppc.modele.Solution;
 import rppc.vue.Fenetre;
 
 public class Main {
 
 	public static void main(String[] args) {
-		//Probleme p = Probleme.problemeEnonce();
+//		Probleme p = Probleme.problemeEnonce();
 		Probleme p = new Probleme("HT01.txt");
-		Algorithme a = new RechercheLocaleIteree(p);
+		Algorithme a = new RechercheLocaleItereePlus(p);
+//		Algorithme a = new RechercheLocaleIteree(p);
+//		Algorithme a = new RechercheLocale(p, false);
 		a.run();
 		a.getSolution().affichageSolution();
 		
@@ -32,12 +35,13 @@ public class Main {
 //		Decodage d2 = new Decodage(c3, p);
 //		d2.decoder().affichageSolution();
 		
-		//IG();
+//		IG();
 	}
 	
 	public static void IG(){
-		final Probleme p  = Probleme.problemeEnonce();
-		Algorithme a = new RechercheLocale(p, false);
+		Probleme p  = Probleme.problemeEnonce();
+//		Probleme p = new Probleme("HT01.txt");
+		Algorithme a = new RechercheLocaleItereePlus(p);
 		MonModele m = new MonModele(p, a);
 		new Fenetre(m);
 		a.run();

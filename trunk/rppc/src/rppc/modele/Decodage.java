@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Decodage {
 
-	private Codage codage;
 	private Probleme probleme;
 	private int permutationPlusInverse[];
 	private int permutationMoinsInverse[];
@@ -17,7 +16,6 @@ public class Decodage {
 	private List<ListeIndexe> K;
 
 	public Decodage(Codage codage, Probleme probleme) {
-		this.codage = codage;
 		this.probleme = probleme;
 		this.permutationPlusInverse = inversePermutation(codage.getPermutationPlus());
 		this.permutationMoinsInverse = inversePermutation(codage.getPermutationMoins());
