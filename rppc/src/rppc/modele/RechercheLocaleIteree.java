@@ -7,7 +7,10 @@ public class RechercheLocaleIteree extends Algorithme {
 
 	public RechercheLocaleIteree(Probleme p) {
 		this.p = p;
+		s = new Solution(p);
+		s.solutionRealisable(true);
 	}
+
 
 	@Override
 	public Solution getSolution() {
@@ -18,16 +21,15 @@ public class RechercheLocaleIteree extends Algorithme {
 	public void run() {
 
 		Solution s2;
-		s = new Solution(p);
-		s.solutionRealisable(true);
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 10000; i++) {
 			RechercheLocale r = new RechercheLocale(p, true);
 			r.run();
 			s2 = r.getSolution();
 			if (s.getHauteur() > s2.getHauteur()) {
-				s2.affichageSolution();
 				s = s2;	
 				i = -1;
+				setChanged();
+				notifyObservers();
 			}
 
 		}

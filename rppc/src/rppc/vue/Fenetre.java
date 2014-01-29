@@ -1,17 +1,11 @@
 package rppc.vue;
 
-import java.awt.Container;
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
 
 import rppc.modele.MonModele;
 import rppc.modele.Probleme;
@@ -21,6 +15,9 @@ public class Fenetre extends JFrame implements Observer {
 
 	private MonModele modele;
 	
+	private final static int TINIT = 60;
+	private final static int TAILLE = 25;
+	
 	private static final long serialVersionUID = 4042713508717400450L;
 
 	public Fenetre(MonModele modele) {
@@ -28,74 +25,51 @@ public class Fenetre extends JFrame implements Observer {
 		modele.addObserver(this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container co = getContentPane();
-		
-		Probleme p = modele.getProbleme();
-		
-		co.setLayout(new GridBagLayout());
-		
-		pack();
+
 		setVisible(true);
-		setSize(800, 600);
+		setSize(400, 400);
+		repaint();
 		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+		}
 	}
 	
 	@Override
-	public void paintComponents(Graphics g) {
-		super.paintComponents(g);
+	public void paint(Graphics g) {
+		super.paint(g);
+		
+		g.drawString("qualité (hauteur) : "+ modele.getCurrentSolution().getHauteur(), TINIT, TINIT-20);
 		
 		Probleme p = modele.getProbleme();
 		
 		int max = modele.getCurrentSolution().getHauteur();
 		
+//		
+//		modele.getCurrentSolution().affichageSolution();
 		for(int i=0;i< p.getTaille();i++){
-			JLabel j = new JLabel(String.valueOf(p.getObjets().get(i).getIndice()), SwingConstants.CENTER);
-//			JButton j = new JButton(String.valueOf(p.getObjets().get(i).getIndice()));
-			j.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+			int x = modele.getCurrentSolution().getX(i);
 			
-			GridBagConstraints c = new GridBagConstraints();
-//			c.fill = GridBagConstraints.CENTER;
-			c.gridx = modele.getCurrentSolution().getX(i);
-			c.gridy = max - modele.getCurrentSolution().getY(i);
-			c.gridwidth = p.getObjets().get(i).getLargeur();
-			System.out.println(modele.getCurrentSolution().getY(i)+" "+(8 - modele.getCurrentSolution().getY(i)));
-			c.gridheight = p.getObjets().get(i).getHauteur();
-			c.ipadx = c.gridwidth * 20;
-			c.ipady = c.gridheight * 20;
+			int width = p.getObjets().get(i).getLargeur();
+			int height = p.getObjets().get(i).getHauteur();
+			int y = max - modele.getCurrentSolution().getY(i)- height;
 			
-//			co.add(j, c);
+//			System.out.println(i+" "+y+" "+modele.getCurrentSolution().getY(i));
+			g.setColor(Color.BLUE);
+			g.drawRect(TINIT+x*TAILLE, TINIT+y*TAILLE , width*TAILLE, height*TAILLE);
+			g.drawString(String.valueOf(i), TINIT+x*TAILLE+4, TINIT+y*TAILLE + 15);
+			
 		}
 		
+		g.setColor(Color.RED);
+		g.drawLine(TINIT -2, TINIT, TINIT -2, max *TAILLE + TINIT);
+		g.drawLine(TINIT + p.getLargeur()*TAILLE +2, TINIT, TINIT + p.getLargeur()*TAILLE + 2, max *TAILLE + TINIT);
+
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		Probleme p = modele.getProbleme();
-		Container co = getContentPane();
-		co.removeAll();
-		
-		int max = modele.getCurrentSolution().getHauteur();
-		
-		for(int i=0;i< p.getTaille();i++){
-			JLabel j = new JLabel(String.valueOf(p.getObjets().get(i).getIndice()), SwingConstants.CENTER);
-//			JButton j = new JButton(String.valueOf(p.getObjets().get(i).getIndice()));
-			j.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-			
-			GridBagConstraints c = new GridBagConstraints();
-//			c.fill = GridBagConstraints.CENTER;
-			c.gridx = modele.getCurrentSolution().getX(i);
-			c.gridy = max - modele.getCurrentSolution().getY(i);
-			c.gridwidth = p.getObjets().get(i).getLargeur();
-			System.out.println(modele.getCurrentSolution().getY(i)+" "+(8 - modele.getCurrentSolution().getY(i)));
-			c.gridheight = p.getObjets().get(i).getHauteur();
-			c.ipadx = c.gridwidth * 20;
-			c.ipady = c.gridheight * 20;
-			
-			co.add(j, c);
-		}
-		
-		pack();
-		setSize(800, 600);
 		repaint();
 		
 		try {

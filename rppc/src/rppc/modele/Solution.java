@@ -2,10 +2,9 @@ package rppc.modele;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-public class Solution {
+public class Solution implements Comparable<Solution> {
 
 	private int x[];
 	private int y[];
@@ -49,7 +48,8 @@ public class Solution {
 	public void affichageSolution() {
 		System.out.println("H: " + hauteur + " " + valideSolution());
 		for (int i = 0; i < x.length; i++) {
-			System.out.println(probleme.getObjets().get(i).getIndice() + " (" + +x[i] + "," + y[i] + ")");
+			System.out.println(probleme.getObjets().get(i).getIndice() + " (" + +x[i] + "," + y[i] + ")" + "\t"
+					+ probleme.getObjets().get(i).getLargeur() + " " + probleme.getObjets().get(i).getHauteur());
 		}
 	}
 
@@ -104,6 +104,11 @@ public class Solution {
 			setY(r.get(i).getIndice(), r.get(i - 1).getHauteur() + getY(r.get(i - 1).getIndice()));
 		}
 		calculeHauteur();
+	}
+
+	@Override
+	public int compareTo(Solution o) {
+		return Integer.compare(getHauteur(), o.getHauteur());
 	}
 
 }
