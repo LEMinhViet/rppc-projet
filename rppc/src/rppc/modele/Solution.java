@@ -42,6 +42,10 @@ public class Solution {
 		this.hauteur = hauteur;
 	}
 
+	public int getHauteur() {
+		return hauteur;
+	}
+
 	public void affichageSolution() {
 		System.out.println("H: " + hauteur + " " + valideSolution());
 		for (int i = 0; i < x.length; i++) {
@@ -86,7 +90,7 @@ public class Solution {
 	public void solutionRealisable(boolean aleatoire) {
 		List<ObjetRectangulaire> r = new ArrayList<>(probleme.getTaille());
 		r.addAll(probleme.getObjets());
-		
+
 		if (!aleatoire)
 			Collections.sort(r, Collections.reverseOrder());
 		else
