@@ -7,6 +7,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -26,7 +27,7 @@ public class Fenetre extends JFrame implements Observer {
 		modele.addObserver(this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		Container co =getContentPane();
+		Container co = getContentPane();
 		
 		Probleme p = modele.getProbleme();
 		
@@ -35,15 +36,18 @@ public class Fenetre extends JFrame implements Observer {
 		
 		for(int i=0;i< p.getTaille();i++){
 			JLabel j = new JLabel(String.valueOf(p.getObjets().get(i).getIndice()), SwingConstants.CENTER);
-			j.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+//			JButton j = new JButton(String.valueOf(p.getObjets().get(i).getIndice()));
+			j.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 			
 			GridBagConstraints c = new GridBagConstraints();
-			//c.fill = GridBagConstraints.;
+//			c.fill = GridBagConstraints.CENTER;
 			c.gridx = modele.getCurrentSolution().getX(i);
-			c.gridy = modele.getCurrentSolution().getY(i);
+			c.gridy = - modele.getCurrentSolution().getY(i) -1;
 			c.gridwidth = p.getObjets().get(i).getLargeur();
 			System.out.println(c.gridwidth);
 			c.gridheight = p.getObjets().get(i).getHauteur();
+			c.ipadx = c.gridwidth * 20;
+			c.ipady = c.gridheight * 20;
 			
 			co.add(j, c);
 		}
