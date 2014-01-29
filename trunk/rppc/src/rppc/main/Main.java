@@ -1,9 +1,12 @@
 package rppc.main;
 
+import rppc.modele.Algorithme;
 import rppc.modele.Codage;
 import rppc.modele.Decodage;
+import rppc.modele.MonModele;
 import rppc.modele.Probleme;
 import rppc.modele.Solution;
+import rppc.vue.Fenetre;
 
 public class Main {
 
@@ -21,5 +24,21 @@ public class Main {
 		c3.afficher();
 		Decodage d2 = new Decodage(c3, p);
 		d2.decoder().affichageSolution();
+		
+		IG();
+	}
+	
+	public static void IG(){
+		final Probleme p  = Probleme.problemeEnonce();
+		MonModele m = new MonModele(p, new Algorithme() {
+			
+			@Override
+			public Solution getSolution() {
+				Solution s = new Solution(p);
+				s.solutionRealisable(false);
+				return s;
+			}
+		});
+		new Fenetre(m);
 	}
 }
