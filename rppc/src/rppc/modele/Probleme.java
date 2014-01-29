@@ -8,51 +8,38 @@ import java.util.Scanner;
 
 public class Probleme {
 
-	private final int largeur;
-	private final List<ObjetRectangulaire> objets;
+	private int largeur;
+	private List<ObjetRectangulaire> objets;
 
 	public Probleme(int largeur, List<ObjetRectangulaire> objets) {
 		this.largeur = largeur;
 		this.objets = objets;
 	}
-	
-	public Probleme(String filename){
-		
-			try {
-				Scanner scanner = new Scanner(new File(filename));
 
-				largeur = scanner.nextInt();
+	public Probleme(String filename) {
 
-				// Lire les cout d'execution
-				for (int i = 0; i < nombreDeAgent; i++) {
-					for (int j = 0; j < nombreDeTache; j++) {
-						if (i == 0) {
-							taches.add(new Tache(nombreDeAgent));
-						}
+		try {
+			Scanner scanner = new Scanner(new File(filename));
 
-						taches.get(j).addCout(i, scanner.nextInt());
-					}
-				}
+			int taille = scanner.nextInt();
+			// System.out.println(taille);
+			this.largeur = scanner.nextInt();
+			this.objets = new ArrayList<>(taille);
 
-				// Lire les ressources requis pour l'execution
-				for (int i = 0; i < nombreDeAgent; i++) {
-					for (int j = 0; j < nombreDeTache; j++) {
-						taches.get(j).addRessource(i, scanner.nextInt());
-					}
-				}
+			for (int i = 0; i < taille; i++) {
+				int indice = scanner.nextInt();
+				int l = scanner.nextInt();
+				int h = scanner.nextInt();
+				this.objets.add(new ObjetRectangulaire(l, h, indice - 1));
 
-				// Lire les capacites des agents
-				for (int i = 0; i < nombreDeAgent; i++) {
-					capacite[i] = scanner.nextInt();
-				}
-
-				scanner.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
+
+			scanner.close();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
 	}
-	
 
 	public int getLargeur() {
 		return largeur;
@@ -62,11 +49,10 @@ public class Probleme {
 		return objets;
 	}
 
-	public int getTaille()
-	{
+	public int getTaille() {
 		return objets.size();
 	}
-	
+
 	public static Probleme problemeEnonce() {
 		List<ObjetRectangulaire> objets = new ArrayList<>(6);
 		objets.add(new ObjetRectangulaire(1, 2, 0));
