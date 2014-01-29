@@ -13,7 +13,8 @@ import rppc.vue.Fenetre;
 public class Main {
 
 	public static void main(String[] args) {
-		Probleme p = Probleme.problemeEnonce();
+		//Probleme p = Probleme.problemeEnonce();
+		Probleme p = new Probleme("HT01.txt");
 		Algorithme a = new RechercheLocaleIteree(p);
 		a.run();
 		a.getSolution().affichageSolution();

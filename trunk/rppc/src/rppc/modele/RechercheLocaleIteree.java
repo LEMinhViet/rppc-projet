@@ -20,7 +20,7 @@ public class RechercheLocaleIteree extends Algorithme {
 		Solution s2;
 		s = new Solution(p);
 		s.solutionRealisable(true);
-		for (int i = 0; i < 1000000; i++) {
+		for (int i = 0; i < 1000; i++) {
 			RechercheLocale r = new RechercheLocale(p, true);
 			r.run();
 			s2 = r.getSolution();
