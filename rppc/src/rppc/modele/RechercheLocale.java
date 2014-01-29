@@ -4,6 +4,7 @@ public class RechercheLocale extends Algorithme {
 	private Solution solution;
 	private Codage codage;
 	private int hauteurLocale;
+	private Probleme probleme;
 
 	public RechercheLocale(Probleme probleme, boolean aleatoire) {
 		this.solution = new Solution(probleme);
@@ -11,8 +12,18 @@ public class RechercheLocale extends Algorithme {
 		this.solution.solutionRealisable(aleatoire);
 		this.codage = new Codage(solution);
 		this.hauteurLocale = solution.getHauteur();
-		solution.affichageSolution();
-		
+		this.probleme = probleme;
+//		solution.affichageSolution();
+
+	}
+
+	@Override
+	public Solution getSolution() {
+		return solution;
+	}
+
+	@Override
+	public void run() {
 		for (int i = 0; i < probleme.getTaille(); i++) {
 			for (int j = i + 1; j < probleme.getTaille(); j++) {
 				Codage c2 = new Codage(codage);
@@ -33,12 +44,6 @@ public class RechercheLocale extends Algorithme {
 
 			}
 		}
-
-	}
-
-	@Override
-	public Solution getSolution() {
-		return solution;
 	}
 
 }
