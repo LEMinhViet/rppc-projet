@@ -43,7 +43,7 @@ public class Solution {
 	}
 
 	public void affichageSolution() {
-		System.out.println("H: " + hauteur + " "+ valideSolution());
+		System.out.println("H: " + hauteur + " " + valideSolution());
 		for (int i = 0; i < x.length; i++) {
 			System.out.println(probleme.getObjets().get(i).getIndice() + " (" + +x[i] + "," + y[i] + ")");
 		}
@@ -83,10 +83,14 @@ public class Solution {
 		return max;
 	}
 
-	public void solutionRealisable() {
+	public void solutionRealisable(boolean aleatoire) {
 		List<ObjetRectangulaire> r = new ArrayList<>(probleme.getTaille());
 		r.addAll(probleme.getObjets());
-		Collections.sort(r);
+		
+		if (!aleatoire)
+			Collections.sort(r, Collections.reverseOrder());
+		else
+			Collections.shuffle(r);
 
 		setX(r.get(0).getIndice(), 0);
 		setY(r.get(0).getIndice(), 0);
