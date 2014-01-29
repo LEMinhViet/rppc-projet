@@ -5,13 +5,17 @@ import rppc.modele.Codage;
 import rppc.modele.Decodage;
 import rppc.modele.MonModele;
 import rppc.modele.Probleme;
+import rppc.modele.RechercheLocale;
 import rppc.modele.Solution;
 import rppc.vue.Fenetre;
 
 public class Main {
 
 	public static void main(String[] args) {
-//		Probleme p = Probleme.problemeEnonce();
+		Probleme p = Probleme.problemeEnonce();
+		Algorithme a = new RechercheLocale(p, false);
+		a.getSolution();
+		
 //		Codage c = Codage.permutationEnonce();
 //		Decodage d = new Decodage(c, p);
 //		d.decoder().affichageSolution();
