@@ -32,7 +32,7 @@ public class RechercheLocale extends Algorithme {
 				Solution s2 = d.decoder();
 
 				if (s2.getHauteur() < hauteurLocale && s2.valideSolution()) {
-					s2.affichageSolution();
+					//s2.affichageSolution();
 					hauteurLocale = s2.getHauteur();
 					solution = s2;
 					codage = c2;
