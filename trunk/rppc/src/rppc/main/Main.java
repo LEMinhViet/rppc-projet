@@ -34,15 +34,9 @@ public class Main {
 	
 	public static void IG(){
 		final Probleme p  = Probleme.problemeEnonce();
-		MonModele m = new MonModele(p, new Algorithme() {
-			
-			@Override
-			public Solution getSolution() {
-				Solution s = new Solution(p);
-				s.solutionRealisable(false);
-				return s;
-			}
-		});
+		Algorithme a = new RechercheLocale(p, false);
+		MonModele m = new MonModele(p, a);
 		new Fenetre(m);
+		a.run();
 	}
 }
