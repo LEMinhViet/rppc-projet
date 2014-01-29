@@ -8,6 +8,7 @@ public class RechercheLocale implements Algorithme{
 
 	public RechercheLocale(Probleme probleme, boolean aleatoire) {
 		this.probleme = probleme;
+		this.solution = new Solution(probleme);
 		this.solution.solutionRealisable(aleatoire);
 		this.codage = new Codage(solution);
 		this.hauteurLocale = solution.getHauteur();
