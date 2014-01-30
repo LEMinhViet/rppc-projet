@@ -28,8 +28,8 @@ public class Probleme {
 
 			for (int i = 0; i < taille; i++) {
 				int indice = scanner.nextInt();
-				int l = scanner.nextInt();
 				int h = scanner.nextInt();
+				int l = scanner.nextInt();
 				this.objets.add(new ObjetRectangulaire(l, h, indice - 1));
 
 			}

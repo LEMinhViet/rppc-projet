@@ -25,7 +25,7 @@ public class Fenetre extends JFrame implements Observer {
 		modele.addObserver(this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		
 		setVisible(true);
 		setSize(400, 400);
 		repaint();
@@ -40,7 +40,7 @@ public class Fenetre extends JFrame implements Observer {
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		g.drawString("qualité (hauteur) : "+ modele.getCurrentSolution().getHauteur(), TINIT, TINIT-20);
+		g.drawString("qualite (hauteur) : "+ modele.getCurrentSolution().getHauteur(), TINIT, TINIT-20);
 		
 		Probleme p = modele.getProbleme();
 		

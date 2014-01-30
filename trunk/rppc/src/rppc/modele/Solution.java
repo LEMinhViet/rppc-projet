@@ -1,6 +1,7 @@
 package rppc.modele;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class Solution implements Comparable<Solution> {
 	public void affichageSolution() {
 		System.out.println("H: " + hauteur + " " + valideSolution());
 		for (int i = 0; i < x.length; i++) {
-			System.out.println(probleme.getObjets().get(i).getIndice() + " (" + +x[i] + "," + y[i] + ")" + "\t"
+			System.out.println(probleme.getObjets().get(i).getIndice() + " (" + +x[i] + "," + y[i] + ")" + "  \t"
 					+ probleme.getObjets().get(i).getLargeur() + " " + probleme.getObjets().get(i).getHauteur());
 		}
 	}
@@ -110,5 +111,29 @@ public class Solution implements Comparable<Solution> {
 	public int compareTo(Solution o) {
 		return Integer.compare(getHauteur(), o.getHauteur());
 	}
+	
+	
+	public int[] getX() {
+		return x;
+	}
 
+	public int[] getY() {
+		return y;
+	}
+	
+	public void perturbation(Solution s) {
+		x = Arrays.copyOf(s.getX(), x.length);
+		y = Arrays.copyOf(s.getY(), y.length);
+		calculeHauteur();
+		
+		int tmp;
+		do {
+			for (int i = 0; i < 2; i++) {
+				tmp = (int)(Math.random() * 1000 % x.length);
+				x[tmp] = 0;
+				y[tmp] = hauteur;
+				hauteur += probleme.getObjets().get(tmp).getHauteur();
+			}
+		} while (!valideSolution());
+	}
 }
