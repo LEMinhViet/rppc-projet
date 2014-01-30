@@ -9,6 +9,8 @@ public class RechercheLocaleIteree extends Algorithme {
 		this.p = p;
 		s = new Solution(p);
 		s.solutionRealisable(true);
+		RechercheLocale r = new RechercheLocale(p, s);
+		s = r.getSolution();
 	}
 
 
@@ -22,7 +24,7 @@ public class RechercheLocaleIteree extends Algorithme {
 
 		Solution s2;
 		for (int i = 0; i < 1000; i++) {
-			System.out.println("step " + i);
+//			System.out.println("step " + i);
 
 			s2 = new Solution(p);
 			s2.perturbation(s);	
@@ -31,7 +33,7 @@ public class RechercheLocaleIteree extends Algorithme {
 			s2 = r.getSolution();
 			if (s.getHauteur() > s2.getHauteur() && s2.valideSolution()) {
 				s = s2;	
-//				i = -1;
+				i = -1;
 				setChanged();
 				notifyObservers();
 			}
