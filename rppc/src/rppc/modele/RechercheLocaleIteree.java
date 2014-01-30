@@ -21,13 +21,17 @@ public class RechercheLocaleIteree extends Algorithme {
 	public void run() {
 
 		Solution s2;
-		for (int i = 0; i < 10000; i++) {
-			RechercheLocale r = new RechercheLocale(p, true);
+		for (int i = 0; i < 1000; i++) {
+			System.out.println("step " + i);
+
+			s2 = new Solution(p);
+			s2.perturbation(s);	
+			RechercheLocale r = new RechercheLocale(p, s2);
 			r.run();
 			s2 = r.getSolution();
-			if (s.getHauteur() > s2.getHauteur()) {
+			if (s.getHauteur() > s2.getHauteur() && s2.valideSolution()) {
 				s = s2;	
-				i = -1;
+//				i = -1;
 				setChanged();
 				notifyObservers();
 			}

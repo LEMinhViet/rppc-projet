@@ -15,12 +15,12 @@ public class Main {
 
 	public static void main(String[] args) {
 //		Probleme p = Probleme.problemeEnonce();
-		Probleme p = new Probleme("HT01.txt");
-		Algorithme a = new RechercheLocaleItereePlus(p);
+//		Probleme p = new Probleme("HT03.txt");
+//		Algorithme a = new RechercheLocaleItereePlus(p);
 //		Algorithme a = new RechercheLocaleIteree(p);
 //		Algorithme a = new RechercheLocale(p, false);
-		a.run();
-		a.getSolution().affichageSolution();
+//		a.run();
+//		a.getSolution().affichageSolution();
 		
 //		Codage c = Codage.permutationEnonce();
 //		Decodage d = new Decodage(c, p);
@@ -35,13 +35,14 @@ public class Main {
 //		Decodage d2 = new Decodage(c3, p);
 //		d2.decoder().affichageSolution();
 		
-//		IG();
+		IG();
 	}
 	
 	public static void IG(){
-		Probleme p  = Probleme.problemeEnonce();
-//		Probleme p = new Probleme("HT01.txt");
-		Algorithme a = new RechercheLocaleItereePlus(p);
+//		Probleme p  = Probleme.problemeEnonce();
+		Probleme p = new Probleme("HT01.txt");
+		Algorithme a = new RechercheLocaleIteree(p);
+//		Algorithme a = new RechercheLocaleItereePlus(p);
 		MonModele m = new MonModele(p, a);
 		new Fenetre(m);
 		a.run();
