@@ -29,4 +29,8 @@ public class ObjetRectangulaire implements Comparable<ObjetRectangulaire> {
 		return Integer.compare(largeur, o.largeur);
 	}
 
+	public float aire() {
+		return largeur*hauteur;
+	}
+
 }

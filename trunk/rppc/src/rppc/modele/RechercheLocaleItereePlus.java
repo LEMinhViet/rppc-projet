@@ -13,8 +13,8 @@ public class RechercheLocaleItereePlus extends Algorithme {
 
 	public RechercheLocaleItereePlus(Probleme p) {
 		this.p = p;
-		s = new ArrayList<>(30);
-		for (int i = 0; i < 30; i++) {
+		s = new ArrayList<>();
+		for (int i = 0; i < 8; i++) {
 			Solution ss = new Solution(p);
 			ss.solutionRealisable(true);
 			s.add(ss);
@@ -30,7 +30,7 @@ public class RechercheLocaleItereePlus extends Algorithme {
 	@Override
 	public void run() {
 
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 50; i++) {
 			int j = generateur.nextInt(s.size());
 			RechercheLocale r = new RechercheLocale(p, s.get(j));
 			r.run();

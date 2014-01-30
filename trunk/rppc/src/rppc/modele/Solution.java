@@ -136,4 +136,8 @@ public class Solution implements Comparable<Solution> {
 			}
 		} while (!valideSolution());
 	}
+	
+	public float ratio(){
+		return (float) (100.*(probleme.aire()/(getHauteur() * probleme.getLargeur())));
+	}
 }
