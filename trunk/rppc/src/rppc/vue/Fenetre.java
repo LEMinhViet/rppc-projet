@@ -1,6 +1,7 @@
 package rppc.vue;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Observable;
 import java.util.Observer;
@@ -40,7 +41,9 @@ public class Fenetre extends JFrame implements Observer {
 	public void paint(Graphics g) {
 		super.paint(g);
 		
-		g.drawString("qualite (hauteur) : "+ modele.getCurrentSolution().getHauteur(), TINIT, TINIT-20);
+		Font font = new Font("Arial", Font.PLAIN, 14);	    
+	    g.setFont(font);
+	    g.drawString("qualite (hauteur) : "+ modele.getCurrentSolution().getHauteur(), TINIT, TINIT - 10);
 		
 		Probleme p = modele.getProbleme();
 		

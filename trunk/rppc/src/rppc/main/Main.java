@@ -36,15 +36,18 @@ public class Main {
 //		d2.decoder().affichageSolution();
 		
 		IG();
+		
 	}
 	
 	public static void IG(){
+		long start = System.currentTimeMillis();
 //		Probleme p  = Probleme.problemeEnonce();
-		Probleme p = new Probleme("HT01.txt");
-		Algorithme a = new RechercheLocaleIteree(p);
-//		Algorithme a = new RechercheLocaleItereePlus(p);
+		Probleme p = new Probleme("HT03.txt");
+//		Algorithme a = new RechercheLocaleIteree(p);
+		Algorithme a = new RechercheLocaleItereePlus(p);
 		MonModele m = new MonModele(p, a);
 		new Fenetre(m);
 		a.run();
+		System.out.println(System.currentTimeMillis() - start);
 	}
 }
