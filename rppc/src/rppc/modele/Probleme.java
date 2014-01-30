@@ -67,4 +67,11 @@ public class Probleme {
 		return p;
 	}
 
+	public float aire() {
+		float aire = 0;
+		for(ObjetRectangulaire o : objets)
+			aire+= o.aire();
+		return aire;
+	}
+
 }

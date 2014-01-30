@@ -23,7 +23,7 @@ public class RechercheLocaleIteree extends Algorithme {
 	public void run() {
 
 		Solution s2;
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 200; i++) {
 //			System.out.println("step " + i);
 
 			s2 = new Solution(p);

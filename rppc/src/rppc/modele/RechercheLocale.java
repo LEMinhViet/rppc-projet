@@ -12,6 +12,12 @@ public class RechercheLocale extends Algorithme {
 	ArrayList<Integer> lesI;
 	ArrayList<Integer> lesJ;
 
+	/**
+	 * Partir d'une solution réalisable 
+	 * 
+	 * @param probleme
+	 * @param aleatoire
+	 */
 	public RechercheLocale(Probleme probleme, boolean aleatoire) {
 		this.solution = new Solution(probleme);
 		this.solution.solutionRealisable(aleatoire);
@@ -23,6 +29,12 @@ public class RechercheLocale extends Algorithme {
 		init_shuffle();
 	}
 
+	/**
+	 * Perturber la solution 
+	 * 
+	 * @param p
+	 * @param s
+	 */
 	public RechercheLocale(Probleme p, Solution s) {
 		this.probleme = p;
 		this.hauteurLocale = s.getHauteur();
